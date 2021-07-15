@@ -5,7 +5,7 @@ var config = {
     markerColor: '#49566E',
     theme: 'light',
     use3dTerrain: false,
-    subtitle: 'Towns, cities and counties across the US can help rid the world of nuclear weapons. In addition to lobbying for state and federal legislators to sign the Pledge and work towards alignment with the 2017 UN Treaty on the Prohibition of Nuclear Weapons, NuclearBan.US is asking local governments and town residents to work towards the alignment of their municipalities with the Treaty.',
+   // subtitle: 'Towns, cities and counties across the US can help rid the world of nuclear weapons. In addition to lobbying for state and federal legislators to sign the Pledge and work towards alignment with the 2017 UN Treaty on the Prohibition of Nuclear Weapons, NuclearBan.US is asking local governments and town residents to work towards the alignment of their municipalities with the Treaty.',
     byline: 'Explore the map below to learn about the American towns and cities that have aligned themselves with the Treaty:',
 	chapters: [
 
