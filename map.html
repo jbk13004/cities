@@ -1,0 +1,255 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>Show and hide layers</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+<style>
+ body {
+            margin:0;
+            padding:0;
+            font-family: Poppins;
+        }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<style>
+
+.mapboxgl-popup {
+max-width: 400px;
+font-family: Poppins;
+}
+
+#menu {
+background: #fff;
+position: absolute;
+z-index: 1;
+top: 10px;
+right: 10px;
+border-radius: 3px;
+width: 120px;
+border: 1px solid rgba(0, 0, 0, 0.4);
+font-family: 'Poppins';
+}
+ 
+#menu a {
+font-size: 13px;
+color: #404040;
+display: block;
+margin: 0;
+padding: 0;
+padding: 10px;
+text-decoration: none;
+border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+text-align: center;
+}
+ 
+#menu a:last-child {
+border: none;
+}
+ 
+#menu a:hover {
+background-color: #f8f8f8;
+color: #404040;
+}
+ 
+#menu a.active {
+background-color: #49566E;
+color: #ffffff;
+}
+ 
+#menu a.active:hover {
+background: #353f52;
+}
+</style>
+ 
+<nav id="menu"></nav>
+<div id="map"></div>
+ 
+<script>
+	// TO MAKE THE MAP APPEAR YOU MUST
+	// ADD YOUR ACCESS TOKEN FROM
+	// https://account.mapbox.com
+	mapboxgl.accessToken = 'pk.eyJ1IjoiamJrMTMwMDQiLCJhIjoiY2tpOTVzeWpkMDN4ZTJ5bjg3OTBzN21udiJ9.gJQPNCgsOp2w9ECuu_fj2A';
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/jbk13004/ckmjqnyt05dyi17qin3m2d9n9',
+zoom: 3,
+center: [-97.775536, 40.898693]
+});
+ 
+// Wait until the map has finished loading.
+map.on('load', function () {
+// Add a custom vector tileset source. This tileset contains
+// point features representing museums. Each feature contains
+// three properties. For example:
+// {
+//     alt_name: "Museo Arqueologico",
+//     name: "Museo Inka",
+//     tourism: "museum"
+// }
+map.addSource('mayors', {
+'type': 'geojson',
+'data': 'https://rawcdn.githack.com/jbk13004/cities/4135e80e524451511a0de79d733586c97352a87d/mayorsforpeace.geojson'
+});
+map.addLayer({
+'id': 'Mayors for Peace',
+'type': 'circle',
+'source': 'mayors',
+'layout': {
+// Make the layer visible by default.
+'visibility': 'visible'
+},
+'paint': {
+'circle-radius': 6,
+'circle-color': '#49566E'
+}
+});
+ 
+// Add the Mapbox Terrain v2 vector tileset. Read more about
+// the structure of data in this tileset in the documentation:
+// https://docs.mapbox.com/vector-tiles/reference/mapbox-terrain-v2/
+map.addSource('brink', {
+'type': 'geojson',
+'data': 'https://rawcdn.githack.com/jbk13004/cities/62e92da9061ae00010f8ce5cfe58026d47971784/backfrombrink.geojson'
+});
+map.addLayer({
+'id': 'Back From the Brink',
+'type': 'circle',
+'source': 'brink',
+'layout': {
+// Make the layer visible by default.
+'visibility': 'visible',
+},
+'paint': {
+'circle-radius': 6,
+'circle-color': '#FFA100'
+}
+});
+
+map.addSource('ican', {
+'type': 'geojson',
+'data': 'https://rawcdn.githack.com/jbk13004/cities/ad7b1124aea6b30d26321cb6e8f469d14ed8ddbb/ican.geojson'
+});
+map.addLayer({
+'id': 'ICAN Treaty Alignment',
+'type': 'circle',
+'source': 'ican',
+'layout': {
+// Make the layer visible by default.
+'visibility': 'visible',
+},
+'paint': {
+'circle-radius': 6,
+'circle-color': '#8A1538'
+}
+});
+
+map.on('click', 'ICAN Treaty Alignment', function (e) {
+new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML('<h3>'+ e.features[0].properties.USER_City +'</h3>')
+.addTo(map);
+});
+
+map.on('mouseenter', 'ICAN Treaty Alignment', function () {
+map.getCanvas().style.cursor = 'pointer';
+});
+
+map.on('mouseleave', 'ICAN Treaty Alignment', function () {
+map.getCanvas().style.cursor = '';
+});
+
+map.on('click', 'Mayors for Peace', function (e) {
+new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML('<h3>'+ e.features[0].properties.USER_City +'</h3>')
+.addTo(map);
+});
+
+map.on('mouseenter', 'Mayors for Peace', function () {
+map.getCanvas().style.cursor = 'pointer';
+});
+
+map.on('mouseleave', 'Mayors for Peace', function () {
+map.getCanvas().style.cursor = '';
+});
+
+map.on('click', 'Back From the Brink', function (e) {
+new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML('<h3>'+ e.features[0].properties.USER_City +'</h3>')
+.addTo(map);
+});
+
+map.on('mouseenter', 'Back From the Brink', function () {
+map.getCanvas().style.cursor = 'pointer';
+});
+
+map.on('mouseleave', 'Back From the Brink', function () {
+map.getCanvas().style.cursor = '';
+});
+
+});
+
+
+ 
+// After the last frame rendered before the map enters an "idle" state.
+map.on('idle', function () {
+// If these two layers have been added to the style,
+// add the toggle buttons.
+if (map.getLayer('Mayors for Peace') && map.getLayer('Back From the Brink') && map.getLayer('ICAN Treaty Alignment')) {
+// Enumerate ids of the layers.
+var toggleableLayerIds = ['Mayors for Peace', 'Back From the Brink', 'ICAN Treaty Alignment'];
+// Set up the corresponding toggle button for each layer.
+for (var i = 0; i < toggleableLayerIds.length; i++) {
+var id = toggleableLayerIds[i];
+if (!document.getElementById(id)) {
+// Create a link.
+var link = document.createElement('a');
+link.id = id;
+link.href = '#';
+link.textContent = id;
+link.className = 'active';
+// Show or hide layer when the toggle is clicked.
+link.onclick = function (e) {
+var clickedLayer = this.textContent;
+e.preventDefault();
+e.stopPropagation();
+ 
+var visibility = map.getLayoutProperty(
+clickedLayer,
+'visibility'
+);
+ 
+// Toggle layer visibility by changing the layout object's visibility property.
+if (visibility === 'visible') {
+map.setLayoutProperty(
+clickedLayer,
+'visibility',
+'none'
+);
+this.className = '';
+} else {
+this.className = 'active';
+map.setLayoutProperty(
+clickedLayer,
+'visibility',
+'visible'
+);
+}
+};
+ 
+var layers = document.getElementById('menu');
+layers.appendChild(link);
+}
+}
+}
+});
+</script>
+ 
+</body>
+</html>
